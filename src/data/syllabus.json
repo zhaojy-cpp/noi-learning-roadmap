@@ -1,0 +1,55 @@
+{
+  "levels": [
+    {
+      "level": 1,
+      "title_zh": "基础知识",
+      "title_en": "Fundamentals",
+      "points": [
+        {
+          "id": "1-1",
+          "title_zh": "输入输出",
+          "title_en": "Input & Output",
+          "description_zh": "掌握基本的输入输出操作（cin/scanf/printf）。",
+          "description_en": "Understand basic input and output operations (cin/scanf/printf).",
+          "links": [
+            {
+              "name": "Luogu",
+              "url": "https://www.luogu.com.cn/problem/P1000"
+            }
+          ]
+        },
+        {
+          "id": "1-2",
+          "title_zh": "顺序结构",
+          "title_en": "Sequential Structure",
+          "description_zh": "了解程序的基本执行顺序。",
+          "description_en": "Understand the basic sequential flow of a program.",
+          "links": [
+            {
+              "name": "AtCoder",
+              "url": "https://atcoder.jp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "title_zh": "进阶算法",
+      "title_en": "Intermediate Algorithms",
+      "points": []
+    },
+    {
+      "level": 3,
+      "title_zh": "高级算法",
+      "title_en": "Advanced Algorithms",
+      "points": []
+    },
+    {
+      "level": 4,
+      "title_zh": "竞赛拓展",
+      "title_en": "Olympiad Extension",
+      "points": []
+    }
+  ]
+}
