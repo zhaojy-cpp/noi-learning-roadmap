@@ -1,0 +1,1520 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>初等数论系统学习资料</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #e53e3e;
+            --accent: #38a169;
+            --neutral: #2d3748;
+            --base-100: #ffffff;
+            --base-200: #f7fafc;
+            --base-300: #edf2f7;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--neutral);
+        }
+        
+        .serif-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+            padding: 2rem 1.5rem;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 60vh;
+        }
+        
+        .math-formula {
+            background: var(--base-200);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.5rem;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+            margin: 4rem 0;
+        }
+        
+        .citation-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--secondary);
+            transition: all 0.2s ease;
+        }
+        
+        .citation-link:hover {
+            background-color: rgba(229, 62, 62, 0.1);
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .toc-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding-left: 1rem;
+        }
+        
+        .toc-link.active {
+            color: #ffd700;
+            background: rgba(255,255,255,0.15);
+            padding-left: 1rem;
+        }
+        
+        .pull-quote {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 6px solid var(--accent);
+            padding: 2rem;
+            margin: 3rem 0;
+            font-style: italic;
+            font-size: 1.125rem;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .math-highlight {
+            background: linear-gradient(90deg, rgba(56,161,105,0.1) 0%, transparent 100%);
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+        
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        
+        .toc-link.level-2 {
+            padding-left: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .toc-link.level-3 {
+            padding-left: 3rem;
+            font-size: 0.85rem;
+        }
+
+        .mermaid-container {
+            display: flex;
+            justify-content: center;
+            min-height: 300px;
+            max-height: 800px;
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mermaid-container .mermaid {
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            cursor: grab;
+            transition: transform 0.3s ease;
+            transform-origin: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .mermaid-container .mermaid svg {
+            max-width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .mermaid-container .mermaid:active {
+            cursor: grabbing;
+        }
+
+        .mermaid-container.zoomed .mermaid {
+            height: 100%;
+            width: 100%;
+            cursor: grab;
+        }
+
+        .mermaid-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mermaid-control-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #374151;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mermaid-control-btn:hover {
+            background: #f8fafc;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .mermaid-control-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Enhanced mermaid node styling for better contrast */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node polygon {
+            stroke-width: 2px !important;
+            stroke: var(--primary) !important;
+        }
+        
+        .mermaid .node .label {
+            color: var(--neutral) !important;
+            font-weight: 500 !important;
+            font-size: 14px !important;
+        }
+        
+        .mermaid .edgePath .path {
+            stroke-width: 2px !important;
+            stroke: var(--primary) !important;
+        }
+        
+        .mermaid .arrowheadPath {
+            fill: var(--primary) !important;
+        }
+        
+        /* Specific node color overrides for better contrast */
+        .mermaid .node[style*="fill:#e1f5fe"] .label,
+        .mermaid .node[style*="fill:#f3e5f5"] .label,
+        .mermaid .node[style*="fill:#fff8e1"] .label,
+        .mermaid .node[style*="fill:#e8f5e8"] .label {
+            color: #1a365d !important;
+            font-weight: 600 !important;
+        }
+        
+        .mermaid .node[style*="fill:#ffebee"] .label {
+            color: #1a365d !important;
+            font-weight: 600 !important;
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .toc-fixed.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mermaid-control-btn:not(.reset-zoom) {
+                display: none;
+            }
+            .mermaid-controls {
+                top: auto;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+            .px-8 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .hero-section .serif-display.text-5xl {
+                font-size: 2.5rem;
+            }
+            .hero-section p.text-xl {
+                font-size: 1rem;
+            }
+            .module-card {
+                padding: 1rem;
+            }
+            .mermaid-container {
+                padding: 15px;
+            }
+        }
+    </style>
+  </head>
+
+  <body class="bg-gray-50 scroll-smooth">
+    <!-- Table of Contents - Fixed Left Sidebar -->
+    <nav class="toc-fixed" id="toc">
+      <div class="mb-8">
+        <h2 class="text-xl font-bold serif-display mb-2">目录</h2>
+        <div class="h-px bg-gradient-to-r from-yellow-400 to-transparent mb-6"></div>
+      </div>
+
+      <div class="space-y-1">
+        <a class="toc-link" href="#introduction">引言</a>
+        <a class="toc-link" href="#core-modules">1. 核心知识模块</a>
+        <a class="toc-link level-2" href="#divisibility-theory">1.1 整除理论</a>
+        <a class="toc-link level-3" href="#basic-concepts">1.1.1 基本概念与性质</a>
+        <a class="toc-link level-3" href="#division-algorithm">1.1.2 带余除法</a>
+        <a class="toc-link level-3" href="#gcd-lcm">1.1.3 最大公约数与最小公倍数</a>
+        <a class="toc-link level-3" href="#prime-numbers">1.1.4 素数与算术基本定理</a>
+        <a class="toc-link level-2" href="#congruence-theory">1.2 同余理论</a>
+        <a class="toc-link level-3" href="#congruence-definition">1.2.1 同余的定义与基本性质</a>
+        <a class="toc-link level-3" href="#residue-classes">1.2.2 剩余类与剩余系</a>
+        <a class="toc-link level-3" href="#fermat-euler">1.2.3 费马小定理与欧拉定理</a>
+        <a class="toc-link level-3" href="#linear-congruences">1.2.4 线性同余方程</a>
+        <a class="toc-link level-3" href="#chinese-remainder">1.2.5 中国剩余定理</a>
+        <a class="toc-link level-2" href="#diophantine-equations">1.3 不定方程</a>
+        <a class="toc-link level-3" href="#linear-diophantine">1.3.1 线性不定方程</a>
+        <a class="toc-link level-3" href="#pythagorean-triples">1.3.2 毕达哥拉斯三元组</a>
+        <a class="toc-link level-3" href="#pell-equation">1.3.3 佩尔方程</a>
+        <a class="toc-link level-3" href="#higher-degree">1.3.4 高次不定方程与费马大定理</a>
+        <a class="toc-link" href="#textbooks">2. 推荐教材与参考书目</a>
+        <a class="toc-link level-2" href="#chinese-textbooks">2.1 中文经典教材</a>
+        <a class="toc-link level-2" href="#international-textbooks">2.2 国际经典教材</a>
+        <a class="toc-link level-2" href="#problem-books">2.3 习题集与趣味读物</a>
+        <a class="toc-link" href="#online-resources">3. 在线学习资源</a>
+        <a class="toc-link level-2" href="#open-courses">3.1 开放课程与讲义</a>
+        <a class="toc-link level-2" href="#online-tutorials">3.2 在线教程与编程实践</a>
+      </div>
+    </nav>
+
+    <!-- Mobile TOC Toggle -->
+    <button class="lg:hidden fixed top-4 left-4 z-50 bg-blue-600 text-white p-3 rounded-lg shadow-lg" id="mobile-toc-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section px-8 py-16">
+        <div class="max-w-6xl mx-auto">
+          <div class="hero-grid">
+            <div class="space-y-6">
+              <div class="space-y-4">
+                <h1 class="text-5xl lg:text-6xl font-bold serif-display text-gray-900 leading-tight">
+                  <span class="italic text-blue-800">初等数论</span>
+                  <br/>
+                  系统学习资料
+                </h1>
+                <p class="text-xl text-gray-600 font-light leading-relaxed">
+                  探索整数性质的奥秘，从整除理论到同余关系，构建完整的数论知识体系
+                </p>
+              </div>
+
+              <div class="flex items-center space-x-6 text-sm text-gray-500">
+                <div class="flex items-center space-x-2">
+                  <i class="fas fa-book text-blue-600"></i>
+                  <span>数学基础</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <i class="fas fa-graduation-cap text-green-600"></i>
+                  <span>系统学习</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <i class="fas fa-calculator text-purple-600"></i>
+                  <span>理论+实践</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative">
+              <img alt="数学抽象图形背景" class="w-full h-80 object-cover rounded-2xl shadow-2xl" src="https://kimi-web-img.moonshot.cn/img/cdn.pixabay.com/94424ae19c3bb42496c2a6409d18192a6362da71.jpg" size="medium" aspect="wide" query="数学抽象图形" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+              <div class="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-purple-900/20 rounded-2xl"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Introduction -->
+      <section class="px-8 py-12" id="introduction">
+        <div class="max-w-4xl mx-auto">
+          <div class="module-card">
+            <h2 class="text-3xl font-bold serif-display text-gray-900 mb-6">引言</h2>
+
+            <div class="prose prose-lg max-w-none">
+              <p class="text-gray-700 leading-relaxed mb-6">
+                初等数论是研究整数性质及其相互关系的数学分支，其核心知识模块主要包括<strong class="text-blue-700">整除理论</strong>、<strong class="text-green-700">同余理论</strong>和<strong class="text-purple-700">不定方程</strong>
+                <a class="citation-link" href="https://baike.baidu.com/item/%E5%88%9D%E7%AD%89%E6%95%B0%E8%AE%BA/2375326" target="_blank">[585]</a>。
+              </p>
+
+              <div class="math-formula">
+                初等数论 = 整除理论 + 同余理论 + 不定方程
+              </div>
+
+              <p class="text-gray-700 leading-relaxed">
+                整除理论是整个学科的基石，探讨了素数、最大公约数等基本概念，并以算术基本定理为顶峰。同余理论由数学家高斯系统提出，引入了&#34;模运算&#34;的思想，为处理周期性问题和余数提供了强大的工具。不定方程则关注整数解的代数方程，从简单的线性方程到复杂的非线性方程，其研究贯穿了数论的历史。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Core Modules -->
+      <section class="px-8 py-16" id="core-modules">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold serif-display text-gray-900 mb-4">核心知识模块</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+              初等数论的核心内容围绕三大理论展开：整除理论、同余理论和不定方程理论
+            </p>
+          </div>
+
+          <!-- Knowledge Structure Diagram -->
+          <div class="mermaid-container">
+            <div class="mermaid-controls">
+              <button class="mermaid-control-btn zoom-in" title="放大">
+                <i class="fas fa-search-plus"></i>
+              </button>
+              <button class="mermaid-control-btn zoom-out" title="缩小">
+                <i class="fas fa-search-minus"></i>
+              </button>
+              <button class="mermaid-control-btn reset-zoom" title="重置">
+                <i class="fas fa-expand-arrows-alt"></i>
+              </button>
+              <button class="mermaid-control-btn fullscreen" title="全屏查看">
+                <i class="fas fa-expand"></i>
+              </button>
+            </div>
+            <div class="mermaid">
+              graph TD
+              A[&#34;初等数论&#34;] --&gt; B[&#34;整除理论&#34;]
+              A --&gt; C[&#34;同余理论&#34;]
+              A --&gt; D[&#34;不定方程&#34;]
+
+              B --&gt; B1[&#34;带余除法&#34;]
+              B --&gt; B2[&#34;最大公约数&#34;]
+              B --&gt; B3[&#34;素数理论&#34;]
+              B --&gt; B4[&#34;算术基本定理&#34;]
+
+              C --&gt; C1[&#34;同余定义&#34;]
+              C --&gt; C2[&#34;剩余类&#34;]
+              C --&gt; C3[&#34;费马欧拉定理&#34;]
+              C --&gt; C4[&#34;中国剩余定理&#34;]
+
+              D --&gt; D1[&#34;线性不定方程&#34;]
+              D --&gt; D2[&#34;毕达哥拉斯三元组&#34;]
+              D --&gt; D3[&#34;佩尔方程&#34;]
+              D --&gt; D4[&#34;费马大定理&#34;]
+
+              style A fill:#e1f5fe,stroke:#1a365d,stroke-width:3px,color:#1a365d
+              style B fill:#f3e5f5,stroke:#7c3aed,stroke-width:2px,color:#1a365d
+              style C fill:#fff8e1,stroke:#d97706,stroke-width:2px,color:#1a365d
+              style D fill:#e8f5e8,stroke:#059669,stroke-width:2px,color:#1a365d
+            </div>
+          </div>
+
+          <!-- Divisibility Theory -->
+          <div class="module-card" id="divisibility-theory">
+            <div class="flex items-center mb-6">
+              <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-divide text-blue-600 text-xl"></i>
+              </div>
+              <h3 class="text-3xl font-bold serif-display text-gray-900">1.1 整除理论</h3>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+              整除理论是整个初等数论的基石，它系统地研究了整数之间的整除关系，并在此基础上建立了素数、最大公约数等核心概念<a class="citation-link" href="https://cjhb.site/Files.php/Books/Number%20Theory/%E5%88%9D%E7%AD%89%E6%95%B0%E8%AE%BA%20%E6%BD%98%E6%89%BF%E6%B4%9E%20%E6%BD%98%E6%89%BF%E5%BD%AA%20%E8%91%97.pdf" target="_blank">[586]</a>。
+            </p>
+
+            <div class="space-y-8">
+              <!-- Basic Concepts -->
+              <div id="basic-concepts">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.1.1 基本概念与性质</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  整除是初等数论中最基本的关系。对于两个整数
+                  <code class="math-highlight">a</code> 和
+                  <code class="math-highlight">b</code>（
+                  <code class="math-highlight">b ≠ 0</code>），如果存在一个整数
+                  <code class="math-highlight">q</code> 使得
+                  <code class="math-highlight">a = bq</code>，那么我们称
+                  <code class="math-highlight">b</code> 整除
+                  <code class="math-highlight">a</code>，记作
+                  <code class="math-highlight">b | a</code>。
+                </p>
+
+                <div class="math-formula">
+                  整除的性质：
+                  <br/>
+                  • 自反性：a | a
+                  <br/>
+                  • 传递性：若 a | b 且 b | c，则 a | c
+                  <br/>
+                  • 反对称性：若 a | b 且 b | a，则 a = ±b
+                </div>
+              </div>
+
+              <!-- Division Algorithm -->
+              <div id="division-algorithm">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.1.2 带余除法</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  带余除法是初等数论中一个基本而重要的定理，它为整数的除法运算提供了严格的数学基础<a class="citation-link" href="https://feog.github.io/dm1.pdf" target="_blank">[562]</a>。该定理指出，对于任意给定的整数
+                  <code class="math-highlight">a</code>（被除数）和正整数
+                  <code class="math-highlight">b</code>（除数），存在唯一的一对整数
+                  <code class="math-highlight">q</code>（商）和
+                  <code class="math-highlight">r</code>（余数），满足：
+                </p>
+
+                <div class="math-formula">
+                  a = bq + r，其中 0 ≤ r &lt; b
+                </div>
+
+                <p class="text-gray-700 leading-relaxed">
+                  这个定理的重要性在于，它将任意两个整数的除法问题转化为一个等式关系，使得我们可以用代数方法来研究整数的性质。带余除法也是辗转相除法（欧几里得算法）的理论基础<a class="citation-link" href="https://jheffero.w3.uvm.edu/numbertheory/book.pdf" target="_blank">[601]</a>。
+                </p>
+              </div>
+
+              <!-- GCD and LCM -->
+              <div id="gcd-lcm">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.1.3 最大公约数与最小公倍数</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  最大公约数（GCD）和最小公倍数（LCM）是整除理论中的两个核心概念。对于两个不全为零的整数
+                  <code class="math-highlight">a</code> 和
+                  <code class="math-highlight">b</code>：
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                  <div class="bg-blue-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-blue-900 mb-2">最大公约数 gcd(a,b)</h5>
+                    <p class="text-sm text-blue-800">能够同时整除 a 和 b 的最大正整数</p>
+                  </div>
+                  <div class="bg-green-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-green-900 mb-2">最小公倍数 lcm(a,b)</h5>
+                    <p class="text-sm text-green-800">能够被 a 和 b 同时整除的最小正整数</p>
+                  </div>
+                </div>
+
+                <div class="math-formula">
+                  重要关系：|ab| = gcd(a,b) × lcm(a,b)
+                  <br/>
+                  贝祖等式：ax + by = gcd(a,b) 有整数解
+                </div>
+              </div>
+
+              <!-- Prime Numbers -->
+              <div id="prime-numbers">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.1.4 素数与算术基本定理</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  素数是大于1的自然数，除了1和它本身外，没有其他正因数<a class="citation-link" href="https://feog.github.io/dm1.pdf" target="_blank">[562]</a>。素数是构成整数的&#34;基本粒子&#34;，在数论中占据着核心地位。
+                </p>
+
+                <div class="pull-quote">
+                  &#34;任何一个大于1的整数，都可以唯一地（不考虑因子的排列顺序）分解成有限个素数的乘积。&#34;
+                  <cite class="block mt-2 text-sm text-gray-600">— 算术基本定理</cite>
+                </div>
+
+                <p class="text-gray-700 leading-relaxed">
+                  算术基本定理<a class="citation-link" href="https://cjhb.site/Files.php/Books/Number%20Theory/%E5%88%9D%E7%AD%89%E6%95%B0%E8%AE%BA%20%E6%BD%98%E6%89%BF%E6%B4%9E%20%E6%BD%98%E6%89%BF%E5%BD%AA%20%E8%91%97.pdf" target="_blank">[586]</a>的重要性在于，它将所有整数的乘法结构完全建立在了素数之上。欧几里得在《几何原本》中给出了素数有无穷多个的经典证明<a class="citation-link" href="https://baike.baidu.com/item/%E5%88%9D%E7%AD%89%E6%95%B0%E8%AE%BA/2375326" target="_blank">[585]</a>。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Congruence Theory -->
+          <div class="module-card" id="congruence-theory">
+            <div class="flex items-center mb-6">
+              <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-equals text-amber-600 text-xl"></i>
+              </div>
+              <h3 class="text-3xl font-bold serif-display text-gray-900">1.2 同余理论</h3>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+              同余理论是由数学家高斯（Carl Friedrich Gauss）在其1801年的著作《算术研究》中系统提出的，它被认为是数论作为一门独立数学分支的标志<a class="citation-link" href="https://cjhb.site/Files.php/Books/Number%20Theory/%E5%88%9D%E7%AD%89%E6%95%B0%E8%AE%BA%20%E6%BD%98%E6%89%BF%E6%B4%9E%20%E6%BD%98%E6%89%BF%E5%BD%AA%20%E8%91%97.pdf" target="_blank">[586]</a>。
+            </p>
+
+            <div class="space-y-8">
+              <!-- Congruence Definition -->
+              <div id="congruence-definition">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.2.1 同余的定义与基本性质</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  同余是同余理论的核心概念。给定一个正整数
+                  <code class="math-highlight">m</code>（称为模数），如果两个整数
+                  <code class="math-highlight">a</code> 和
+                  <code class="math-highlight">b</code> 满足
+                  <code class="math-highlight">m</code> 整除
+                  <code class="math-highlight">(a - b)</code>，那么我们称
+                  <code class="math-highlight">a</code> 与
+                  <code class="math-highlight">b</code> 模
+                  <code class="math-highlight">m</code> 同余，记作：
+                </p>
+
+                <div class="math-formula">
+                  a ≡ b (mod m)
+                </div>
+
+                <p class="text-gray-700 leading-relaxed">
+                  同余关系是一种等价关系，它满足自反性、对称性和传递性。同余关系与整数的加、减、乘法运算具有良好的兼容性<a class="citation-link" href="https://zhuanlan.zhihu.com/p/455525753" target="_blank">[612]</a>。
+                </p>
+              </div>
+
+              <!-- Residue Classes -->
+              <div id="residue-classes">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.2.2 剩余类与剩余系</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  在同余关系的基础上，我们可以将全体整数集
+                  <code class="math-highlight">Z</code> 进行划分。对于给定的模数
+                  <code class="math-highlight">m</code>，所有与整数
+                  <code class="math-highlight">a</code> 模
+                  <code class="math-highlight">m</code> 同余的整数构成的集合，称为
+                  <code class="math-highlight">a</code> 的模
+                  <code class="math-highlight">m</code> 剩余类，记作
+                  <code class="math-highlight">[a]</code>。
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div class="bg-amber-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-amber-900 mb-2">完全剩余系</h5>
+                    <p class="text-sm text-amber-800">从每个剩余类中各取一个代表元，m个整数构成的集合</p>
+                  </div>
+                  <div class="bg-purple-50 p-4 rounded-lg">
+                    <h5 class="font-semibold text-purple-900 mb-2">简化剩余系</h5>
+                    <p class="text-sm text-purple-800">完全剩余系中与m互素的元素，个数为φ(m)</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fermat and Euler's Theorems -->
+              <div id="fermat-euler">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.2.3 费马小定理与欧拉定理</h4>
+
+                <div class="space-y-6">
+                  <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg">
+                    <h5 class="font-semibold text-red-900 mb-2">费马小定理</h5>
+                    <p class="text-red-800 mb-2">
+                      如果
+                      <code class="math-highlight">p</code> 是素数，且整数
+                      <code class="math-highlight">a</code> 不是
+                      <code class="math-highlight">p</code> 的倍数，那么：
+                    </p>
+                    <div class="math-formula bg-red-100">
+                      a^(p-1) ≡ 1 (mod p)
+                    </div>
+                  </div>
+
+                  <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-r-lg">
+                    <h5 class="font-semibold text-green-900 mb-2">欧拉定理</h5>
+                    <p class="text-green-800 mb-2">
+                      如果
+                      <code class="math-highlight">m</code> 是正整数，且整数
+                      <code class="math-highlight">a</code> 与
+                      <code class="math-highlight">m</code> 互素，那么：
+                    </p>
+                    <div class="math-formula bg-green-100">
+                      a^φ(m) ≡ 1 (mod m)
+                    </div>
+                  </div>
+                </div>
+
+                <p class="text-gray-700 leading-relaxed mt-4">
+                  这两个定理在数论和密码学中有着广泛的应用<a class="citation-link" href="https://zhuanlan.zhihu.com/p/455525753" target="_blank">[612]</a>。当
+                  <code class="math-highlight">m</code> 是素数
+                  <code class="math-highlight">p</code> 时，欧拉定理就退化为费马小定理<a class="citation-link" href="https://cse.buffalo.edu/~xinhe/cse191/Classnotes/note07-1x2.pdf" target="_blank">[582]</a>。
+                </p>
+              </div>
+
+              <!-- Linear Congruences -->
+              <div id="linear-congruences">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.2.4 线性同余方程</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  线性同余方程是形如
+                  <code class="math-highlight">ax ≡ b (mod m)</code> 的方程，其中
+                  <code class="math-highlight">a</code>,
+                  <code class="math-highlight">b</code>,
+                  <code class="math-highlight">m</code> 是已知整数，
+                  <code class="math-highlight">x</code> 是待求的整数。
+                </p>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                  <h5 class="font-semibold text-yellow-900 mb-2">解的存在性条件</h5>
+                  <p class="text-yellow-800">
+                    线性同余方程
+                    <code class="math-highlight">ax ≡ b (mod m)</code> 有解的充要条件是
+                    <code class="math-highlight">gcd(a,m)</code> 整除
+                    <code class="math-highlight">b</code>。
+                  </p>
+                </div>
+              </div>
+
+              <!-- Chinese Remainder Theorem -->
+              <div id="chinese-remainder">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.2.5 中国剩余定理</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  中国剩余定理是同余理论中一个非常著名且强大的定理，它提供了一种求解一组线性同余方程组的方法<a class="citation-link" href="https://zhuanlan.zhihu.com/p/455525753" target="_blank">[612]</a>。
+                </p>
+
+                <div class="pull-quote">
+                  &#34;如果有一组两两互素的模数 m₁, m₂, ..., mₖ，那么对于任意给定的整数 a₁, a₂, ..., aₖ，同余方程组在模 M = m₁m₂...mₖ 的意义下有唯一解。&#34;
+                  <cite class="block mt-2 text-sm text-gray-600">— 中国剩余定理</cite>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Diophantine Equations -->
+          <div class="module-card" id="diophantine-equations">
+            <div class="flex items-center mb-6">
+              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-infinity text-green-600 text-xl"></i>
+              </div>
+              <h3 class="text-3xl font-bold serif-display text-gray-900">1.3 不定方程</h3>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+              不定方程，又称丢番图方程，是指要求整数解的代数方程。这类方程在数论中占据着重要地位，许多著名的数学问题，如费马大定理，都与不定方程有关。
+            </p>
+
+            <div class="space-y-8">
+              <!-- Linear Diophantine Equations -->
+              <div id="linear-diophantine">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.3.1 线性不定方程</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  线性不定方程是形如
+                  <code class="math-highlight">ax + by = c</code> 的方程，其中
+                  <code class="math-highlight">a</code>,
+                  <code class="math-highlight">b</code>,
+                  <code class="math-highlight">c</code> 是已知整数，
+                  <code class="math-highlight">x</code>,
+                  <code class="math-highlight">y</code> 是待求的整数。
+                </p>
+
+                <div class="math-formula">
+                  通解公式：
+                  <br/>
+                  x = x₁ + k × (b/gcd(a,b))
+                  <br/>
+                  y = y₁ - k × (a/gcd(a,b))
+                  <br/>
+                  其中 k 是任意整数
+                </div>
+              </div>
+
+              <!-- Pythagorean Triples -->
+              <div id="pythagorean-triples">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.3.2 毕达哥拉斯三元组</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  毕达哥拉斯三元组，又称勾股数，是指满足
+                  <code class="math-highlight">x² + y² = z²</code> 的三个正整数
+                  <code class="math-highlight">(x,y,z)</code>。
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+                  <h5 class="font-semibold text-blue-900 mb-2">本原毕达哥拉斯三元组的生成公式</h5>
+                  <p class="text-blue-800 mb-2">
+                    对于任意两个互素且一奇一偶的正整数
+                    <code class="math-highlight">m &gt; n</code>：
+                  </p>
+                  <div class="math-formula bg-blue-100">
+                    x = m² - n²
+                    <br/>
+                    y = 2mn
+                    <br/>
+                    z = m² + n²
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pell's Equation -->
+              <div id="pell-equation">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.3.3 佩尔方程</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  佩尔方程是形如
+                  <code class="math-highlight">x² - Dy² = 1</code> 的二次不定方程，其中
+                  <code class="math-highlight">D</code> 是一个非平方正整数。
+                </p>
+
+                <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                  <h5 class="font-semibold text-purple-900 mb-2">解法</h5>
+                  <p class="text-purple-800">
+                    利用 √D 的连分数展开，其基本周期可以用来构造方程的最小正整数解（基本解）。一旦找到基本解
+                    <code class="math-highlight">(x₁,y₁)</code>，所有的解都可以通过
+                    <code class="math-highlight">(x₁ + y₁√D)ⁿ = xn + yn√D</code> 来生成。
+                  </p>
+                </div>
+              </div>
+
+              <!-- Higher Degree Equations -->
+              <div id="higher-degree">
+                <h4 class="text-2xl font-semibold text-gray-900 mb-4">1.3.4 高次不定方程与费马大定理</h4>
+
+                <p class="text-gray-700 leading-relaxed mb-4">
+                  高次不定方程是指次数大于2的代数方程，其整数解的研究通常非常困难。其中最著名的例子是费马大定理<a class="citation-link" href="https://cse.buffalo.edu/~xinhe/cse191/Classnotes/note07-1x2.pdf" target="_blank">[582]</a>。
+                </p>
+
+                <div class="pull-quote">
+                  &#34;当整数 n &gt; 2 时，关于 x, y, z 的方程 xⁿ + yⁿ = zⁿ 没有正整数解。&#34;
+                  <cite class="block mt-2 text-sm text-gray-600">— 费马大定理</cite>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Textbooks Section -->
+      <section class="px-8 py-16" id="textbooks">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold serif-display text-gray-900 mb-4">推荐教材与参考书目</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+              选择一本合适的教材对于系统学习初等数论至关重要
+            </p>
+          </div>
+
+          <!-- Chinese Textbooks -->
+          <div class="module-card" id="chinese-textbooks">
+            <h3 class="text-3xl font-bold serif-display text-gray-900 mb-6">2.1 中文经典教材</h3>
+
+            <p class="text-gray-700 leading-relaxed mb-8">
+              中文教材通常更贴合国内学生的知识背景和思维习惯，语言表述也更为亲切。以下两本教材是中文初等数论领域的权威之作，被众多高校采用作为本科生教材。
+            </p>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <img alt="初等数论教材封面" class="w-16 h-20 object-cover rounded mr-4" src="https://kimi-web-img.moonshot.cn/img/m.media-amazon.com/e0e3739c7fc591f8c329442fe5bccc42b3a86dd0.jpg" size="small" aspect="tall" query="初等数论 闵嗣鹤 严士健 教材封面" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                  <div>
+                    <h4 class="text-xl font-bold text-red-900">《初等数论》（第四版）</h4>
+                    <p class="text-red-700">闵嗣鹤、严士健、张莲 著</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-sm">
+                  <p class="text-red-800">
+                    <strong>出版社：</strong>高等教育出版社<a class="citation-link" href="https://www.hep.com.cn/book/show/a617cdd3-e16f-44cd-8a66-e2c9f04cacbc" target="_blank">[614]</a>
+                  </p>
+                  <p class="text-red-800">
+                    <strong>特点：</strong>内容全面，体系严谨，叙述深入浅出，逻辑清晰
+                  </p>
+                  <p class="text-red-800">
+                    <strong>适用范围：</strong>师范院校和综合大学数学院系教材<a class="citation-link" href="http://hwwx-mdjnu-cn-443.webvpn.mdjnu.edu.cn/mspace/searchDetailLocal/me433088351e254dd1fd24ab368b0495e" target="_blank">[611]</a>
+                  </p>
+                </div>
+              </div>
+
+              <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <img alt="潘承洞潘承彪初等数论教材封面" class="w-16 h-20 object-cover rounded mr-4" src="https://kimi-web-img.moonshot.cn/img/m.media-amazon.com/27ca92ab1b89e66c8fed4200d6a2ea8bce224178.jpg" size="small" aspect="tall" query="潘承洞潘承彪初等数论教材封面" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                  <div>
+                    <h4 class="text-xl font-bold text-blue-900">《初等数论》</h4>
+                    <p class="text-blue-700">潘承洞、潘承彪 著</p>
+                  </div>
+                </div>
+
+                <div class="space-y-3 text-sm">
+                  <p class="text-blue-800">
+                    <strong>出版社：</strong>北京大学出版社<a class="citation-link" href="https://shuxue.yangtzeu.edu.cn/__local/1/35/A5/B05973F0D0CE2CDFBD1F26162F2_8F5E7DB9_3F6D6D.pdf" target="_blank">[625]</a>
+                  </p>
+                  <p class="text-blue-800">
+                    <strong>特点：</strong>内容深度和广度兼备，写作风格严谨
+                  </p>
+                  <p class="text-blue-800">
+                    <strong>适用范围：</strong>有一定数学基础并希望深入钻研数论的学生
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- International Textbooks -->
+          <div class="module-card" id="international-textbooks">
+            <h3 class="text-3xl font-bold serif-display text-gray-900 mb-6">2.2 国际经典教材</h3>
+
+            <p class="text-gray-700 leading-relaxed mb-8">
+              国际上的经典教材通常以其丰富的历史背景、生动的例子和广泛的应用而著称，能够为学习者提供不同的视角和更广阔的视野。
+            </p>
+
+            <div class="space-y-8">
+              <!-- Burton's Book -->
+              <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6">
+                <div class="flex items-start mb-4">
+                  <div class="w-16 h-20 bg-white rounded shadow-md flex items-center justify-center mr-4">
+                    <i class="fas fa-book text-purple-600 text-2xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="text-xl font-bold text-purple-900 mb-2">《Elementary Number Theory》</h4>
+                    <p class="text-purple-700 mb-2">David M. Burton 著</p>
+                    <p class="text-sm text-purple-600">
+                      已更新至第七版<a class="citation-link" href="https://www.mheducation.com/highered/product/elementary-number-theory-burton.html" target="_blank">[596]</a>
+                    </p>
+                  </div>
+                </div>
+
+                <p class="text-purple-800 mb-4">
+                  该书以其清晰的写作风格、丰富的历史注记和大量的练习题而备受赞誉。难度适中，非常适合初学者入门<a class="citation-link" href="https://math.illinois.edu/resources/syllabus-math-453" target="_blank">[593]</a>。
+                </p>
+
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm">
+                    <thead>
+                      <tr class="bg-purple-100">
+                        <th class="text-left p-2 font-semibold text-purple-900">章节</th>
+                        <th class="text-left p-2 font-semibold text-purple-900">标题</th>
+                        <th class="text-left p-2 font-semibold text-purple-900">主要内容</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-purple-800">
+                      <tr class="border-b border-purple-200">
+                        <td class="p-2">2</td>
+                        <td class="p-2">Divisibility Theory</td>
+                        <td class="p-2">带余除法、最大公约数、欧几里得算法</td>
+                      </tr>
+                      <tr class="border-b border-purple-200">
+                        <td class="p-2">4</td>
+                        <td class="p-2">The Theory of Congruences</td>
+                        <td class="p-2">同余基本性质、中国剩余定理</td>
+                      </tr>
+                      <tr class="border-b border-purple-200">
+                        <td class="p-2">5</td>
+                        <td class="p-2">Fermat&#39;s Theorem</td>
+                        <td class="p-2">费马小定理、威尔逊定理</td>
+                      </tr>
+                      <tr class="border-b border-purple-200">
+                        <td class="p-2">7</td>
+                        <td class="p-2">Euler&#39;s Generalization</td>
+                        <td class="p-2">欧拉φ函数、欧拉定理</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Rosen's Book -->
+              <div class="bg-gradient-to-r from-green-50 to-teal-50 border border-green-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <div class="w-16 h-20 bg-white rounded shadow-md flex items-center justify-center mr-4">
+                    <i class="fas fa-laptop-code text-green-600 text-2xl"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-xl font-bold text-green-900">《Elementary Number Theory and Its Applications》</h4>
+                    <p class="text-green-700">Kenneth H. Rosen 著</p>
+                  </div>
+                </div>
+
+                <p class="text-green-800">
+                  该书以其内容的广度和对应用的强调而著称<a class="citation-link" href="https://users.fmf.uni-lj.si/lavric/Rosen%20-%20Elementary%20number%20theory%20and%20its%20applications.pdf" target="_blank">[636]</a>。详细介绍了数论在计算机科学、密码学、通信等领域的广泛应用，如哈希函数、伪随机数生成、RSA加密等。适合对数论应用感兴趣的学习者。
+                </p>
+              </div>
+
+              <!-- Silverman's Book -->
+              <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <div class="w-16 h-20 bg-white rounded shadow-md flex items-center justify-center mr-4">
+                    <i class="fas fa-heart text-yellow-600 text-2xl"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-xl font-bold text-yellow-900">《A Friendly Introduction to Number Theory》</h4>
+                    <p class="text-yellow-700">Joseph H. Silverman 著</p>
+                  </div>
+                </div>
+
+                <p class="text-yellow-800">
+                  该书以其独特的&#34;友好&#34;风格而闻名<a class="citation-link" href="https://dokumen.pub/a-friendly-introduction-to-number-theory-4th-ed-person-new-international-ed-1292027096-1269374508-9781292027098-9781269374507.html" target="_blank">[640]</a>，从简单问题入手，逐步引导读者进入数论的奇妙世界。避免了过多的形式化证明，通过大量例子和直观解释帮助理解。非常适合作为初等数论的第一本教材。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Problem Books and Recreational Reading -->
+          <div class="module-card" id="problem-books">
+            <h3 class="text-3xl font-bold serif-display text-gray-900 mb-6">2.3 习题集与趣味读物</h3>
+
+            <div class="grid lg:grid-cols-3 gap-6">
+              <div class="bg-pink-50 border border-pink-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-pencil-alt text-pink-600 text-2xl mr-3"></i>
+                  <h4 class="text-lg font-bold text-pink-900">《初等数论100例》</h4>
+                </div>
+                <p class="text-pink-800 text-sm mb-2">柯召、孙琦 著</p>
+                <p class="text-pink-700 text-sm">
+                  收录100个经典问题，难度适中，非常适合作为课后练习和竞赛准备。
+                </p>
+              </div>
+
+              <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-gamepad text-indigo-600 text-2xl mr-3"></i>
+                  <h4 class="text-lg font-bold text-indigo-900">《数论妙趣》</h4>
+                </div>
+                <p class="text-indigo-800 text-sm mb-2">H. 贝勒 著</p>
+                <p class="text-indigo-700 text-sm">
+                  收集了历史上大量关于数论的趣味故事和问题，用生动的语言讲述数学原理。
+                </p>
+              </div>
+
+              <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-university text-gray-600 text-2xl mr-3"></i>
+                  <h4 class="text-lg font-bold text-gray-900">《数论导引》</h4>
+                </div>
+                <p class="text-gray-800 text-sm mb-2">G.H. Hardy, E.M. Wright 著</p>
+                <p class="text-gray-700 text-sm">
+                  数论领域的传世经典<a class="citation-link" href="https://library.fudan.edu.cn/wjzx/da/d9/c42364a514777/page.htm" target="_blank">[10]</a>，内容丰富，注重数学思想的阐述和理论的深度。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- Online Resources -->
+      <section class="px-8 py-16" id="online-resources">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold serif-display text-gray-900 mb-4">在线学习资源</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+              随着互联网的发展，越来越多的优质教育资源可以通过网络免费获取
+            </p>
+          </div>
+
+          <!-- Open Courses -->
+          <div class="module-card" id="open-courses">
+            <h3 class="text-3xl font-bold serif-display text-gray-900 mb-6">3.1 开放课程与讲义</h3>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-graduation-cap text-red-600 text-2xl mr-4"></i>
+                  <div>
+                    <h4 class="text-xl font-bold text-red-900">MIT OpenCourseWare</h4>
+                    <p class="text-red-700">Number Theory I</p>
+                  </div>
+                </div>
+                <p class="text-red-800">
+                  麻省理工学院的开放课程平台提供了丰富的数学课程资源，由知名教授讲授，内容质量高，体系完整。
+                </p>
+              </div>
+
+              <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-globe text-blue-600 text-2xl mr-4"></i>
+                  <div>
+                    <h4 class="text-xl font-bold text-blue-900">NPTEL</h4>
+                    <p class="text-blue-700">Elementary Number Theory</p>
+                  </div>
+                </div>
+                <p class="text-blue-800">
+                  印度理工学院和国家技术学院联合推出的在线课程，由印度顶尖高校教授讲授，内容详实，讲解清晰。
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-8 bg-green-50 border border-green-200 rounded-xl p-6">
+              <div class="flex items-center mb-4">
+                <i class="fas fa-file-alt text-green-600 text-2xl mr-4"></i>
+                <div>
+                  <h4 class="text-xl font-bold text-green-900">William Chen&#39;s Lecture Notes</h4>
+                </div>
+              </div>
+              <p class="text-green-800">
+                著名数学教育学者William Chen教授的个人网站提供了大量高质量的数学讲义，其中就包括初等数论。内容全面，逻辑清晰，证明严谨，并且免费提供下载。
+              </p>
+            </div>
+          </div>
+
+          <!-- Online Tutorials -->
+          <div class="module-card" id="online-tutorials">
+            <h3 class="text-3xl font-bold serif-display text-gray-900 mb-6">3.2 在线教程与编程实践</h3>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <div class="bg-purple-50 border border-purple-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-code text-purple-600 text-2xl mr-4"></i>
+                  <div>
+                    <h4 class="text-xl font-bold text-purple-900">GeeksforGeeks</h4>
+                    <p class="text-purple-700">Number Theory</p>
+                  </div>
+                </div>
+                <p class="text-purple-800">
+                  专注于计算机科学和编程的网站，提供了关于数论的详细教程。以算法和应用为导向，通过具体的代码示例，讲解数论在计算机科学中的应用。
+                </p>
+              </div>
+
+              <div class="bg-orange-50 border border-orange-200 rounded-xl p-6">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-project-diagram text-orange-600 text-2xl mr-4"></i>
+                  <div>
+                    <h4 class="text-xl font-bold text-orange-900">Project Euler</h4>
+                  </div>
+                </div>
+                <p class="text-orange-800">
+                  以解决数学和计算机编程问题为主的网站，提供了大量与数论相关的编程问题，难度从简单到复杂不等。通过解决问题，可以加深对数论知识的理解，同时提高编程能力。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-gray-900 text-white px-8 py-12">
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-gray-300 mb-4">
+            系统学习初等数论，构建完整的数学思维体系
+          </p>
+          <div class="flex justify-center space-x-6 text-sm text-gray-400">
+            <span> 2025 数论学习指南</span>
+            <span>•</span>
+            <span>数学之美</span>
+            <span>•</span>
+            <span>思维之光</span>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#e1f5fe',
+                primaryTextColor: '#1a365d',
+                primaryBorderColor: '#1a365d',
+                lineColor: '#1a365d',
+                secondaryColor: '#f3e5f5',
+                tertiaryColor: '#fff8e1',
+                background: '#ffffff',
+                mainBkg: '#ffffff',
+                secondBkg: '#f8fafc',
+                tertiaryBkg: '#f1f5f9'
+            },
+            flowchart: {
+                htmlLabels: true,
+                curve: 'basis',
+                padding: 20,
+                nodeSpacing: 50,
+                rankSpacing: 80,
+                diagramPadding: 20
+            }
+        });
+
+        // Initialize Mermaid Controls for zoom and pan
+        function initializeMermaidControls() {
+            const containers = document.querySelectorAll('.mermaid-container');
+
+            containers.forEach(container => {
+            const mermaidElement = container.querySelector('.mermaid');
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY, translateX = 0, translateY = 0;
+
+            // 触摸相关状态
+            let isTouch = false;
+            let touchStartTime = 0;
+            let initialDistance = 0;
+            let initialScale = 1;
+            let isPinching = false;
+
+            // Zoom controls
+            const zoomInBtn = container.querySelector('.zoom-in');
+            const zoomOutBtn = container.querySelector('.zoom-out');
+            const resetBtn = container.querySelector('.reset-zoom');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+
+            function updateTransform() {
+                mermaidElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+                if (scale > 1) {
+                container.classList.add('zoomed');
+                } else {
+                container.classList.remove('zoomed');
+                }
+
+                mermaidElement.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+
+            if (zoomInBtn) {
+                zoomInBtn.addEventListener('click', () => {
+                scale = Math.min(scale * 1.25, 4);
+                updateTransform();
+                });
+            }
+
+            if (zoomOutBtn) {
+                zoomOutBtn.addEventListener('click', () => {
+                scale = Math.max(scale / 1.25, 0.3);
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+                });
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+                });
+            }
+
+            // Mouse Events
+            mermaidElement.addEventListener('mousedown', (e) => {
+                if (isTouch) return; // 如果是触摸设备，忽略鼠标事件
+
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mermaidElement.style.cursor = 'grabbing';
+                updateTransform();
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging && !isTouch) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            document.addEventListener('mouseleave', () => {
+                if (isDragging && !isTouch) {
+                isDragging = false;
+                mermaidElement.style.cursor = 'grab';
+                updateTransform();
+                }
+            });
+
+            // 获取两点之间的距离
+            function getTouchDistance(touch1, touch2) {
+                return Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+                );
+            }
+
+            // Touch Events - 触摸事件处理
+            mermaidElement.addEventListener('touchstart', (e) => {
+                isTouch = true;
+                touchStartTime = Date.now();
+
+                if (e.touches.length === 1) {
+                // 单指拖动
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+
+                } else if (e.touches.length === 2) {
+                // 双指缩放
+                isPinching = true;
+                isDragging = false;
+
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialDistance = getTouchDistance(touch1, touch2);
+                initialScale = scale;
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 1 && isDragging && !isPinching) {
+                // 单指拖动
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                updateTransform();
+
+                } else if (e.touches.length === 2 && isPinching) {
+                // 双指缩放
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = getTouchDistance(touch1, touch2);
+
+                if (initialDistance > 0) {
+                    const newScale = Math.min(Math.max(
+                    initialScale * (currentDistance / initialDistance),
+                    0.3
+                    ), 4);
+                    scale = newScale;
+                    updateTransform();
+                }
+                }
+
+                e.preventDefault();
+            }, { passive: false });
+
+            mermaidElement.addEventListener('touchend', (e) => {
+                // 重置状态
+                if (e.touches.length === 0) {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                // 延迟重置isTouch，避免鼠标事件立即触发
+                setTimeout(() => {
+                    isTouch = false;
+                }, 100);
+                } else if (e.touches.length === 1 && isPinching) {
+                // 从双指变为单指，切换为拖动模式
+                isPinching = false;
+                isDragging = true;
+
+                const touch = e.touches[0];
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                }
+
+                updateTransform();
+            });
+
+            mermaidElement.addEventListener('touchcancel', (e) => {
+                isDragging = false;
+                isPinching = false;
+                initialDistance = 0;
+
+                setTimeout(() => {
+                isTouch = false;
+                }, 100);
+
+                updateTransform();
+            });
+
+            // Enhanced wheel zoom with better center point handling
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const rect = container.getBoundingClientRect();
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const delta = e.deltaY > 0 ? 0.9 : 1.1;
+                const newScale = Math.min(Math.max(scale * delta, 0.3), 4);
+
+                // Adjust translation to zoom towards center
+                if (newScale !== scale) {
+                const scaleDiff = newScale / scale;
+                translateX = translateX * scaleDiff;
+                translateY = translateY * scaleDiff;
+                scale = newScale;
+
+                if (scale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+
+                updateTransform();
+                }
+            });
+
+            // Initialize display
+            updateTransform();
+            });
+        }
+
+        // Initialize mermaid controls after DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeMermaidControls);
+
+        // Mobile TOC Toggle
+        document.getElementById('mobile-toc-toggle').addEventListener('click', function() {
+            const toc = document.getElementById('toc');
+            toc.classList.toggle('mobile-open');
+        });
+
+        // Close mobile TOC when clicking outside
+        document.addEventListener('click', function(event) {
+            const toc = document.getElementById('toc');
+            const mobileToggle = document.getElementById('mobile-toc-toggle');
+            
+            // Check if click is outside TOC and not on hamburger button
+            if (toc.classList.contains('mobile-open') && 
+                !toc.contains(event.target) && 
+                event.target !== mobileToggle) {
+                toc.classList.remove('mobile-open');
+            }
+        });
+
+        // Handle window resize to ensure proper TOC state
+        window.addEventListener('resize', function() {
+            const toc = document.getElementById('toc');
+            if (window.innerWidth > 1024) {
+                // Large screen: ensure TOC is visible
+                toc.classList.remove('mobile-open');
+            }
+        });
+
+        // Smooth scrolling for TOC links
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Close mobile TOC after clicking
+                if (window.innerWidth <= 1024) {
+                    document.getElementById('toc').classList.remove('mobile-open');
+                }
+            });
+        });
+
+        // Active section highlighting
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('section[id], div[id]');
+            const tocLinks = document.querySelectorAll('.toc-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    current = section.id;
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Update active section on scroll
+        window.addEventListener('scroll', updateActiveSection);
+        
+        // Initial call
+        updateActiveSection();
+    </script>
+
+  
+
+</body></html>
